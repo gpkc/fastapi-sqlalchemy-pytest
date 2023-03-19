@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "FastAPI and SQLAlchemy 2.0"
+version = "0.1.0"
+description = ""
+authors = ["Guilherme Caminha <gpkc@cin.ufpe.br>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.7"}
+uvicorn = "^0.21.1"
+fastapi = "^0.94.1"
+asyncpg = "^0.27.0"
+
+[tool.poetry.group.dev.dependencies]
+alembic = "^1.10.2"
+mypy = "*"
+
+[tool.poetry.group.test]
+[tool.poetry.group.test.dependencies]
+pytest = "*"
+pytest-asyncio = "*"
+pytest-postgresql = "^4.1.1"
+psycopg = "^3.1.8"
+httpx = "^0.23.3"
+
+
+[build-system]
+requires = ["poetry-core>=1.4.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+python_files = "test_*.py"
+python_functions = "test_*"
+python_classes = "Test* *Tests"
+addopts = "-vv -x"
+asyncio_mode = "auto"
+pythonpath = ["."]
+
+[tool.mypy]
+check_untyped_defs = true
+namespace_packages = true
+plugins = "sqlalchemy.ext.mypy.plugin"
+pretty = true
+show_error_context = true
+exclude = ".venv"
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = [
+  "backoff.*",
+  "opentracing.*",
+]
+ignore_missing_imports = true
