@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.services.database import get_db
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..models import User as UserModel
 

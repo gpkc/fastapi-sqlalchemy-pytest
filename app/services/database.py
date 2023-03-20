@@ -2,13 +2,8 @@ import contextlib
 from typing import AsyncIterator
 
 from fastapi import Depends
-from sqlalchemy.ext.asyncio import (
-    create_async_engine,
-    async_sessionmaker,
-    AsyncSession,
-    AsyncConnection,
-    AsyncEngine,
-)
+from sqlalchemy.ext.asyncio import (AsyncConnection, AsyncEngine, AsyncSession,
+                                    async_sessionmaker, create_async_engine)
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()

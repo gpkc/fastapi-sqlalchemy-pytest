@@ -1,9 +1,8 @@
 from uuid import uuid4
 
 from sqlalchemy import Column, String, select
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import NoResultFound
 
 from app.services.database import Base
 
