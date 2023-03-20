@@ -2,8 +2,13 @@ import contextlib
 from typing import AsyncIterator
 
 from fastapi import Depends
-from sqlalchemy.ext.asyncio import (AsyncConnection, AsyncEngine, AsyncSession,
-                                    async_sessionmaker, create_async_engine)
+from sqlalchemy.ext.asyncio import (
+    AsyncConnection,
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -22,6 +27,8 @@ class DatabaseSessionManager:
         if self._engine is None:
             raise Exception("DatabaseSessionManager is not initialized")
         await self._engine.dispose()
+        self._engine = None
+        self._sessionmaker = None
 
     @contextlib.asynccontextmanager
     async def connect(self) -> AsyncIterator[AsyncConnection]:

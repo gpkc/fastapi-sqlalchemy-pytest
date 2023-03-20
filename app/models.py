@@ -20,14 +20,7 @@ class User(Base):
 
         transaction = cls(id=id, **kwargs)
         db.add(transaction)
-        try:
-            await db.commit()
-        except IntegrityError:
-            await db.rollback()
-            raise
-        except Exception:
-            await db.rollback()
-            raise
+        await db.commit()
         await db.refresh(transaction)
         return transaction
 

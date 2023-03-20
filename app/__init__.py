@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.config import config
@@ -5,14 +6,18 @@ from app.services.database import sessionmanager
 
 
 def init_app(init_db=True):
-    server = FastAPI(title="FastAPI server")
+    lifespan = None
 
     if init_db:
         sessionmanager.init(config.DB_CONFIG)
 
-        @server.on_event("shutdown")
-        async def shutdown():
-            await sessionmanager.close()
+        @asynccontextmanager
+        async def lifespan(app: FastAPI):
+            yield
+            if sessionmanager._engine is not None:
+                await sessionmanager.close()
+
+    server = FastAPI(title="FastAPI server", lifespan=lifespan)
 
     from app.views.user import router as user_router
 
